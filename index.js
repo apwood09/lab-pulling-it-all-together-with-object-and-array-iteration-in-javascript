@@ -114,3 +114,111 @@ function gameObject() {
         },
     };
 }
+
+// num points scored
+function numPointsScored(playerName) {
+    const game = gameObject();
+    // home team players
+    if (game.home.players[playerName]) {
+        return game.home.players[playerName].points;
+    }
+    // away team players
+    if (game.away.players[playerName]) {
+        return game.away.players[playerName].points;
+    }
+
+    return null; 
+}
+
+// shoe size
+function shoeSize(playerName) {
+    const game = gameObject();
+
+    // away players
+    if (game.away.players[playerName]) {
+        return game.away.players[playerName]. shoe
+    }
+
+    // home players
+    if (game.home.players[playerName]) {
+        return game.home.players[playerName].shoe
+    }
+
+    return null; 
+}
+
+// team colors
+function teamColors(teamName) {
+    const game = gameObject();
+
+    // home team
+    if (game.home.teamName === teamName) {
+        return game.home.colors;
+    }
+
+    // away team
+    if (game.away.teamName === teamName) {
+        return game.away.colors;
+    }
+
+    return [];
+}
+
+// team names
+function teamNames() {
+    const game = gameObject();
+    return [game.home.teamName, game.away.teamName]; 
+}
+
+// player numbers
+function playerNumbers(teamName) {
+  const game = gameObject();
+  let selectedTeam = null;
+
+  //  which team object to use
+  if (game.home && game.home.teamName === teamName) {
+    selectedTeam = game.home;
+  } else if (game.away && game.away.teamName === teamName) {
+    selectedTeam = game.away;
+  }
+
+  // team not found, return empty
+  if (!selectedTeam) return [];
+
+  // numbers from the players object
+  return Object.values(selectedTeam.players).map(p => p.number);
+}
+
+// player stats
+function playerStats(playerName) {
+    const game = gameObject();
+    
+    // home team 
+    if (game.home.players[playerName]) {
+        return game.home.players[playerName];
+    }
+    
+    // away team 
+    if (game.away.players[playerName]) {
+        return game.away.players[playerName];
+    }
+    
+    return "Player not found";
+}
+
+function bigShoeRebounds() {
+    const game = gameObject();
+
+    // home and away teams in one array 
+    const allPlayers = [
+    ...Object.values(game.home.players),
+    ...Object.values(game.away.players)
+  ];
+
+  // find player largest shoe size (reduce)
+  const bigShoePlayer = allPlayers.reduce((highest, player) => {
+    return (player.shoe > highest.shoe) ? player : highest;
+  }, { shoe: 0, rebounds: 0 }); // init with 0
+
+  return bigShoePlayer.rebounds;
+}
